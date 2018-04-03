@@ -1,0 +1,70 @@
+#! /usr/bin/env python
+
+records = {}
+
+filename = "swg.txt"
+file = open(filename, "r")
+newfile = open("records.txt", "w")
+
+search = "record name is "
+
+for line in file:
+	line = line.replace("\r\n", "")
+	if search in line:
+		match = line[len(search):]
+		
+		recordname = match[0:match.index(" ")]
+		# print >> newfile, match[0:match.index(" ")]
+		# print recordname
+		records[recordname] = []
+		
+	if line != "":
+		if "field " in line:
+			if "ordered by field" in line:
+				continue	
+			field = line[len("field "):]
+			varType = field[field.index("is ") + len("is "):]
+
+			field = field[0:field.index(" ")]
+
+			# print "\t" + field + ":\t" + varType
+			if "indexed by" in varType:
+				varType = varType[0: varType.index("indexed by") - 1]
+
+			if "alnum size " in varType:
+				pos = varType.index("alnum size ") + len("alnum size ")
+				if " " in varType[pos:]:
+					varType = varType[pos:]
+					varType = "VARCHAR(" + varType[0:varType.index(" ")] + ")"
+				else:
+					varType = "VARCHAR(" + varType[pos:] + ")"
+			if "long by " in varType:
+				varType = "DECIMAL(10)"
+			if "long decimals " in varType:
+				pos = varType.index("long decimals ") + len("long decimals ")
+				varType = "DECIMAL(10," + varType[pos:] + ")"
+			if "short decimals " in varType:
+				pos = varType.index("short decimals ") + len("short decimals ")
+				varType = "DECIMAL(10," + varType[pos:] + ")"
+			if "float decimals " in varType:
+				pos = varType.index("float decimals ") + len("float decimals ")
+				varType = "DECIMAL(10," + varType[pos:] + ")"
+			if "date" in varType:
+				varType = "VARCHAR(30)"
+
+			records[recordname].append({field:varType})
+
+# print len(records)
+
+for name in records:
+	print >> newfile, name + "["
+
+	for elem in records[name]:
+		for key, val in elem.items():
+			print >> newfile, key + ":" + val + "|"
+
+	print >> newfile, "]"
+
+
+file.close()
+newfile.close()
