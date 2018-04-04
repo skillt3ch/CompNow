@@ -1,0 +1,30 @@
+table:	stock
+field:	bilmat
+type:	record
+value:	stock_billext
+
+table:	stock
+field:	sizes
+type:	record
+value:	stock_sizes
+
+table:	stock_wh_summary
+field:	bilmat
+type:	record
+value:	stock_wh_summary_billext
+
+table:	stock_wh_summary
+field:	sizes
+type:	record
+value:	stock_wh_summary_size
+
+table:	style
+field:	bill_header
+type:	record
+value:	style_bill_header_ext
+
+table:	style
+field:	style_costing
+type:	record
+value:	style_costing
+
