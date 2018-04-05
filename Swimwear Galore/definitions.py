@@ -94,7 +94,7 @@ def createQuery():
 							query += "`" + key + "` " + val + " DEFAULT NULL,"
 							# print >> file, key + ":" + val + "|"
 						else:
-							print "table:\t" + name + "\nfield:\t" + key + "\ntype:\trecord\nvalue:\t" + val[len("record "):] + "\n"
+							print "in table '" + name + "', field '" + key + "' is record '" + val[len("record "):] + "'"
 				# print >> file, "]"
 				query += "PRIMARY KEY (`" + primaryKey + "`)) ENGINE=InnoDB DEFAULT CHARSET=utf8;\n"
 				print >> file, query

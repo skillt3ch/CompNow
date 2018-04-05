@@ -27,4 +27,3 @@ table:	style
 field:	style_costing
 type:	record
 value:	style_costing
-
