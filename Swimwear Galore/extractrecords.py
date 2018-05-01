@@ -1,12 +1,13 @@
 #! /usr/bin/env python
 
 target = open("target_records.txt", "r")
-src = open("records.txt")
+src = open("records.txt", "r")
 
 records_to_add = []
 
 for line in target:
 	line = line.replace("\n", "")
+	# add all target records to array
 	records_to_add.append(line)
 
 target.close()

@@ -58,15 +58,17 @@ def getRecords():
 	file.close()
 
 def createPrimaryKey(name):
-
 	new_name = []
 
 	if "_" in name:
+		# if there is an underscore in the name, remove underscores and convert to camelCase
 		name = name.split("_")
 
 		for elem in name:
 			new_name.append(elem.title())
+			# create Title case for each element
 		new_name[0] = new_name[0].lower()
+		# and then convert the first element to lowercase
 
 		converted_str = "".join(new_name) + "ID"
 	else:
