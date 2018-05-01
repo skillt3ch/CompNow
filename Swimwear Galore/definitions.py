@@ -103,5 +103,12 @@ def createQuery():
 	file.close()
 	target_file.close()
 
+def printAllRecords():
+	file = open("all_records.txt", "w")
+	for name in records:
+		print >> file, name
+	file.close()
+
 getRecords()
 createQuery()
+# printAllRecords()
