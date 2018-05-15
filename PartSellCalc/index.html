@@ -132,7 +132,7 @@
 
     function calculateSellPrice(cost_ex) {
         var multiplier = 1;
-        var GST = 1.1;
+        const GST = 1.1;
         var pricingStructure = client.val();
         var result = 0;
 
@@ -153,11 +153,11 @@
         } else if (pricingStructure == "lumley") {
             result = cost_ex * GST / 0.8;
             result = result.toFixed(2);
-            if (result.slice(-2) == "00") result = Math.round(result);
+            if (result % 1 == 0) result = Math.round(result);
         } else if (pricingStructure == "ibroker") {
             result = cost_ex * GST * 1.1;
             result = result.toFixed(2);
-            if (result.slice(-2) == "00") result = Math.round(result);
+            if (result % 1 == 0) result = Math.round(result);
         }
         return result;
     }
