@@ -17,10 +17,26 @@
             color: #000;
         }
 
+        .Structure {
+            width: 400px;
+            display: block;
+            margin: 50px auto 15px;
+        }
+
+        .lblStructure {
+            font-size: 14px;
+        }
+
+        .dropdown {
+            float: right;
+            font-size: 18px;
+            width: 250px;
+        }
+
         .Calculator {
             background: #fff;
             padding: 10px 0px;
-            width: 350px;
+            width: 400px;
             margin: auto;
         }
 
@@ -50,7 +66,7 @@
             border: none;
             text-align: right;
             font-size: 24px;
-            width: 70px;
+            width: 150px;
         }
 
         #cost:focus {
@@ -61,14 +77,22 @@
             border: none;
             text-align: right;
             font-size: 24px;
-            width: 70px;
+            width: 150px;
         }
     </style>
 </head>
 
 <body>
-    <h1 class="title">CompNow Part Sell Caclulator</h1>
-    <div class="Calculator">
+    <h1 class="title">CompNow Part Sell Calculator</h1>
+    <div class="Structure">
+        <label class="lblStructure">Pricing Structure:</label>
+        <select class="dropdown" name="client" id="client">
+            <option value="normal" selected>Normal</option>
+            <option value="lumley">Lumley</option>
+            <option value="ibroker">iBroker / Protecsure</option>
+        </select>
+    </div>
+    <div class="Calculator" style="clear: both;">
         <div class="Calculator__row">
             <div class="lbl">Part Cost (ex GST):</div>
             <div class="input_display">
@@ -88,34 +112,54 @@
 <script type="text/javascript">
     var cost = $("#cost");
     var sell = $("#sell");
+    var client = $("#client");
 
     $(document).ready(function () {
         cost.focus();
     })
 
     cost.keypress(function (e) {
+        // Check if enter key is pressed
         if (e.keyCode === 13) {
+            // console.log(client.val());
             sell.val(calculateSellPrice(cost.val()));
         }
+    });
+
+    client.on("change", function () {
+        sell.val(calculateSellPrice(cost.val()));
     });
 
     function calculateSellPrice(cost_ex) {
         var multiplier = 1;
         var GST = 1.1;
+        var pricingStructure = client.val();
+        var result = 0;
 
         if (isNaN(cost_ex)) return "!!";
+        if (cost_ex == "") return "";
 
-        if (cost_ex < 20) {
-            multiplier = 0.5;
-        } else if (cost_ex >= 20 && cost_ex < 250) {
-            multiplier = 0.6;
-        } else if (cost_ex >= 250 && cost_ex < 500) {
-            multiplier = 0.65;
-        } else if (cost_ex >= 500) {
-            multiplier = 0.75;
+        if (pricingStructure == "normal") {
+            if (cost_ex < 20) {
+                multiplier = 0.5;
+            } else if (cost_ex >= 20 && cost_ex < 250) {
+                multiplier = 0.6;
+            } else if (cost_ex >= 250 && cost_ex < 500) {
+                multiplier = 0.65;
+            } else if (cost_ex >= 500) {
+                multiplier = 0.75;
+            }
+            result = Math.round(cost_ex * GST / multiplier);
+        } else if (pricingStructure == "lumley") {
+            result = cost_ex * GST / 0.8;
+            result = result.toFixed(2);
+            if (result.slice(-2) == "00") result = Math.round(result);
+        } else if (pricingStructure == "ibroker") {
+            result = cost_ex * GST * 1.1;
+            result = result.toFixed(2);
+            if (result.slice(-2) == "00") result = Math.round(result);
         }
-        console.log(cost_ex * GST / multiplier);
-        return Math.round(cost_ex * GST / multiplier);
+        return result;
     }
 </script>
 
