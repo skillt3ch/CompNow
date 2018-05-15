@@ -1,119 +1,122 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>CompNow Part Sell Calculator</title>
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-        <style>
-            @import url('https://fonts.googleapis.com/css?family=Open+Sans');
-            
-            body {
-                background: #ABBF49;
-                font-family: 'Open Sans', sans-serif;
-            }
-            
-            .title {
-                text-align: center;
-                color: #000;
-            }
 
-            .Calculator {
-                background: #fff;
-                padding: 10px 0px;
-                width: 350px;
-                margin: auto;
-            }
+<head>
+    <title>CompNow Part Sell Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 
-            .Calculator__row {
-                font-size: 24px;
-                margin: auto;
-            }
-            
-            .input_display {
-                float: right;
-                margin: 10px;
-            }
+        body {
+            background: #ABBF49;
+            font-family: 'Open Sans', sans-serif;
+        }
 
-            .lbl {
-                display: inline-block;
-                font-size: 16px;
-                margin: 20px;
-                line-height: 16px;
-            }
+        .title {
+            text-align: center;
+            color: #000;
+        }
 
-            .unit {
-                display: inline-block;
-                font-size: 20px;
-            }
+        .Calculator {
+            background: #fff;
+            padding: 10px 0px;
+            width: 350px;
+            margin: auto;
+        }
 
-            #cost {
-                border: none;
-                text-align: right;
-                font-size: 24px;
-                width: 70px;
-            }
-            
-            #cost:focus {
-                outline: none;
-            }
-            
-            #sell {
-                border: none;
-                text-align: right;
-                font-size: 24px;
-                width: 70px;
-            }
-        </style>
-    </head>
-    <body>
-        <h1 class="title">CompNow Part Sell Caclulator</h1>
-        <div class="Calculator">
-            <div class="Calculator__row">
-                <div class="lbl">Part Cost (ex GST):</div>
-                <div class="input_display">
-                    <input id="cost" />
-                    <div class="unit">$</div>
-                </div>
-            </div>
-            <div class="Calculator__row">
-                <div class="lbl">Sell Price (inc GST):</div>
-                <div class="input_display">
-                    <input id="sell" readonly>
-                    <div class="unit">$</div>
-                </div>
+        .Calculator__row {
+            font-size: 24px;
+            margin: auto;
+        }
+
+        .input_display {
+            float: right;
+            margin: 10px;
+        }
+
+        .lbl {
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px;
+            line-height: 16px;
+        }
+
+        .unit {
+            display: inline-block;
+            font-size: 20px;
+        }
+
+        #cost {
+            border: none;
+            text-align: right;
+            font-size: 24px;
+            width: 70px;
+        }
+
+        #cost:focus {
+            outline: none;
+        }
+
+        #sell {
+            border: none;
+            text-align: right;
+            font-size: 24px;
+            width: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="title">CompNow Part Sell Caclulator</h1>
+    <div class="Calculator">
+        <div class="Calculator__row">
+            <div class="lbl">Part Cost (ex GST):</div>
+            <div class="input_display">
+                <input id="cost" />
+                <div class="unit">$</div>
             </div>
         </div>
-    </body>
-    <script type="text/javascript">
-        var cost = $("#cost");
-        var sell = $("#sell");
-        
-        $(document).ready(function() {
-            cost.focus();
-        })
+        <div class="Calculator__row">
+            <div class="lbl">Sell Price (inc GST):</div>
+            <div class="input_display">
+                <input id="sell" readonly>
+                <div class="unit">$</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    var cost = $("#cost");
+    var sell = $("#sell");
 
-        cost.keypress(function(e) {
-            if (e.keyCode === 13) {
-                sell.val(calculateSellPrice(cost.val()));
-            }
-        });
+    $(document).ready(function () {
+        cost.focus();
+    })
 
-        function calculateSellPrice(cost_ex) {
-            var multiplier = 1;
-            var GST = 1.1;
-
-            if (isNaN(cost_ex)) return "!!";
-
-            if (cost_ex < 20) {
-                multiplier = 0.5;
-            } else if (cost_ex >= 20 && cost_ex < 250) {
-                multiplier = 0.6;
-            } else if (cost_ex >= 250 && cost_ex < 500) {
-                multiplier = 0.65;
-            } else if (cost_ex >= 500) {
-                multiplier = 0.75;
-            }
-            console.log(cost_ex * GST / multiplier);
-            return Math.round(cost_ex * GST / multiplier);
+    cost.keypress(function (e) {
+        if (e.keyCode === 13) {
+            sell.val(calculateSellPrice(cost.val()));
         }
-    </script>
+    });
+
+    function calculateSellPrice(cost_ex) {
+        var multiplier = 1;
+        var GST = 1.1;
+
+        if (isNaN(cost_ex)) return "!!";
+
+        if (cost_ex < 20) {
+            multiplier = 0.5;
+        } else if (cost_ex >= 20 && cost_ex < 250) {
+            multiplier = 0.6;
+        } else if (cost_ex >= 250 && cost_ex < 500) {
+            multiplier = 0.65;
+        } else if (cost_ex >= 500) {
+            multiplier = 0.75;
+        }
+        console.log(cost_ex * GST / multiplier);
+        return Math.round(cost_ex * GST / multiplier);
+    }
+</script>
+
 </html>
